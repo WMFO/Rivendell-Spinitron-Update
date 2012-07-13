@@ -10,6 +10,7 @@ metadata to Spinitron. It was made for Rivendell 1.5.  It sends Now&Next PAD
 data via UDP packets to the destination(s) specified in the configuration file
 pointed to by the plugin argument.
 
+Before use, add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
 Compile with the included Makefile to produce rlm_spinitron.rlm.  
 Install at RDAdmin->ManageHosts->select the host->Edit->RDAirplay
   ->EditNow&NextData and specify the path to the file. Restart RDAirplay.
