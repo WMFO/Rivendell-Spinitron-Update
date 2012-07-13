@@ -1,16 +1,16 @@
-Rivendell - Spintron Udpate
+Rivendell - Spintron Update
 ========
 
 WMFO - Tufts Freeform Radio  
 ops@wmfo.org  
-For coprights and licensing, see TERMS and COPYING.  
+For copyrights and licensing, see TERMS and COPYING.  
 
 This is a Rivendell Loadable Module made to report the current playing song
 metadata to Spinitron. It was made for Rivendell 1.5.  It sends Now&Next PAD
 data via UDP packets to the destination(s) specified in the configuration file
 pointed to by the plugin argument.
 
-Compile with the included Makefile to produce rlm_spinitron.rlm.
+Compile with the included Makefile to produce rlm_spinitron.rlm.  
 Install at RDAdmin->ManageHosts->select the host->Edit->RDAirplay
   ->EditNow&NextData and specify the path to the file. Restart RDAirplay.
 
@@ -30,4 +30,4 @@ Initial version. - Ben Yu and Eric Berg
 
 ###07/12/12
 Move credentials to new file, prepare documentation, Makefile.
-As few modifications as possible.- Max Goldstein
+As few modifications as possible. - Max Goldstein
