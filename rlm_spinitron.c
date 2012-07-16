@@ -57,7 +57,7 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     replace_spaces_in(artist);
     replace_spaces_in(album);
 
-    int pm = log->log_onair == '1' ? 2 : 0;
+    int pm = log->log_onair == '1' ? 2 : 1;
 
     if (! *title){
         RLMLog(ptr, LOG_WARNING, "No title. Dropping.");
