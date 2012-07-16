@@ -14,7 +14,7 @@ FILE = rlm_spinitron
 all: $(FILE).rlm
 
 $(FILE).rlm: $(FILE).c
-	@gcc -shared -o $@ $< -Wall -Werror -fPIC
+	@gcc -shared -o $@ $< -Wall -Wextra -Werror -fPIC
 
 install: $(INSTALLDIR)/$(FILE).rlm
 
