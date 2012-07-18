@@ -11,6 +11,7 @@ data via UDP packets to the destination(s) specified in the configuration file
 pointed to by the plugin argument.
 
 Before use, add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
+You may also need to change the symlink rlm.h to point to the correct location in your install.  
 Compile with the included Makefile to produce rlm_spinitron.rlm.  
 Optionally, install the file to another directory with the Makefile.  
 Runtime configurtaion is done at RDAdmin->ManageHosts->select the host->Edit->
@@ -35,6 +36,4 @@ Move credentials to new file, prepare documentation, Makefile.
 As few modifications as possible. - Max Goldstein
 
 ###07/15/12
-Refactor code, particularly for safe string functions.
-The largest change in typical usage is that automation logs with pm=0 instead of 1,
-as reccomended by the revised Spinitron API. - Max Goldstein
+Refactor code, particularly for safe string functions. - Max Goldstein
