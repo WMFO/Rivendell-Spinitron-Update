@@ -22,13 +22,14 @@ char old_title[BUFFER_SIZE]; //Global to persist between callbacks
 
 void rlm_spinitron_RLMStart(void *ptr, const char *arg)
 {
-    RLMLog(ptr,LOG_WARNING,"Rivendell-Spinitron Update will start logging now.");
+    (void) arg; //Silence compiler warning
+    RLMLog(ptr,LOG_INFO,"Rivendell-Spinitron Update will start logging now.");
     strcpy(old_title, "A string that will never be the title of a song.");
 }
 
 void rlm_spinitron_RLMFree(void *ptr)
 {
-    RLMLog(ptr,LOG_WARNING, "Rivendell-Spinitron Update will stop logging now.");
+    RLMLog(ptr,LOG_INFO, "Rivendell-Spinitron Update will stop logging now.");
 }
 
 
@@ -44,12 +45,15 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
                 const struct rlm_pad *now,
                 const struct rlm_pad *next)
 {
+    (void) svc;
+    (void) next;
+
     char title[BUFFER_SIZE];
     char artist[BUFFER_SIZE];
     char album[BUFFER_SIZE];
-    strncpy (title,  (char *) now->rlm_title,  BUFFER_SIZE);
-    strncpy (artist, (char *) now->rlm_artist, BUFFER_SIZE);
-    strncpy (album,  (char *) now->rlm_album,  BUFFER_SIZE);
+    strncpy (title,  now->rlm_title,  BUFFER_SIZE);
+    strncpy (artist, now->rlm_artist, BUFFER_SIZE);
+    strncpy (album,  now->rlm_album,  BUFFER_SIZE);
     title [BUFFER_SIZE-1] = '\0';
     artist[BUFFER_SIZE-1] = '\0';
     album [BUFFER_SIZE-1] = '\0';
@@ -76,12 +80,20 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     if (chars_needed >= LARGE_BUFFER){
         RLMLog(ptr, LOG_WARNING, "Insufficient buffer size to send to Spinitron.");
     }else{
-        system(sendToSpinitron);
+        int retval = system(sendToSpinitron);
+        if (retval == -1 || retval == 127){
+            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is
+            wrong with the shell.");
+        } else if (retval) {
+            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is
+            wrong with curl.");
+        }
     }
-    RLMLog(ptr, LOG_WARNING, sendToSpinitron);
+    RLMLog(ptr, LOG_INFO, sendToSpinitron);
 }
 
 void rlm_spinitron_RLMTimerExpired(void *ptr, int timernum)
 {
-
+    (void) ptr;
+    (void) timernum;
 }
