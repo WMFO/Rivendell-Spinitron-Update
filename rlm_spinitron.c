@@ -82,11 +82,9 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     }else{
         int retval = system(sendToSpinitron);
         if (retval == -1 || retval == 127){
-            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is
-            wrong with the shell.");
+            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is wrong with the shell.");
         } else if (retval) {
-            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is
-            wrong with curl.");
+            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is wrong with curl.");
         }
     }
     RLMLog(ptr, LOG_INFO, sendToSpinitron);
