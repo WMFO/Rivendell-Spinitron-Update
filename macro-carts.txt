@@ -24,4 +24,4 @@ Automation OFF
 003  LL 2 BLANK!
 004  LL 3 BLANK!
 
-This sets the on-air flag to 0, and removes all logs.
+This sets the on-air flag to 1, and removes all logs.

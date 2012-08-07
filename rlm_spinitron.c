@@ -1,5 +1,6 @@
 /*
  *  rlm_spinitron.c
+ *  Log songs playing in Rivendell to Spinitron
  *
  *  Module by Eric Berg, Benjamin Yu (C) Copyright 2009.
  *  Enhancements by Max Goldstein    (C) Copyright 2012.
@@ -32,12 +33,32 @@ void rlm_spinitron_RLMFree(void *ptr)
     RLMLog(ptr,LOG_INFO, "Rivendell-Spinitron Update will stop logging now.");
 }
 
-
-void replace_spaces_in (char *s) {
-    for (; *s != '\0'; s++){
-        if (*s == ' ')
-            *s = '+';
+void url_encode (char *src, int len) {
+    int soffset = 0;
+    int doffset = 0;
+    char dst[len];
+    memset(dst, '\0', len);
+    char a = src[soffset++];
+    while (doffset < len && a != '\0'){
+        if ((a >= '0' && a <= '9') ||
+            (a >= 'A' && a <= 'Z') ||
+            (a >= 'a' && a <= 'z')) {
+           dst[doffset++] = a;
+        }else if (a == ' '){
+           dst[doffset++] = '+';
+        }else{
+            if (doffset +4 < len){
+                snprintf(&dst[doffset], 4, "%%%02X", a);
+                doffset += 3;
+            }else{
+                dst[doffset] = '\0';
+                break;
+            }
+        }
+       a = src[soffset++];
     }
+    dst[len-1] = '\0';
+    strncpy(src, dst, len);
 }
 
 void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
@@ -57,11 +78,11 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     title [BUFFER_SIZE-1] = '\0';
     artist[BUFFER_SIZE-1] = '\0';
     album [BUFFER_SIZE-1] = '\0';
-    replace_spaces_in(title);
-    replace_spaces_in(artist);
-    replace_spaces_in(album);
+    url_encode(title,  BUFFER_SIZE);
+    url_encode(artist, BUFFER_SIZE);
+    url_encode(album,  BUFFER_SIZE);
 
-    int pm = log->log_onair == '1' ? 2 : 1;
+    int pm = (log->log_onair == '1') ? 2 : 1;
 
     if (! *title){
         RLMLog(ptr, LOG_WARNING, "No title. Dropping.");

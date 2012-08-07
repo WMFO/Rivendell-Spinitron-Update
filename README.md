@@ -1,5 +1,5 @@
 Rivendell - Spintron Update
-========
+===========================
 
 WMFO - Tufts Freeform Radio  
 ops@wmfo.org  
@@ -12,8 +12,8 @@ pointed to by the plugin argument.
 
 Before use, add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
 You may also need to change the symlink rlm.h to point to the correct location in your install.  
-Compile with the included Makefile to produce rlm_spinitron.rlm.  
-Optionally, install the file to another directory with the Makefile.  
+Compile using `make all` to produce rlm_spinitron.rlm.  
+Optionally, install the file to another directory with `make install`.  
 Runtime configurtaion is done at RDAdmin->ManageHosts->select the host->Edit->
 RDAirplay->EditNow&NextData and specify the path to the file. Restart RDAirplay.
 
@@ -37,3 +37,7 @@ As few modifications as possible. - Max Goldstein
 
 ###07/15/12
 Refactor code, particularly for safe string functions. - Max Goldstein
+
+###07/29/12
+Fix bug where sepcial characters such as `&` would not be escaped properly.
+Makefile now keeps a backup during install and replaces it on uninstall. - Max Goldstein
