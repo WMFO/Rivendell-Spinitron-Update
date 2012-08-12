@@ -82,7 +82,7 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     url_encode(artist, BUFFER_SIZE);
     url_encode(album,  BUFFER_SIZE);
 
-    int pm = (log->log_onair == '1') ? 2 : 1;
+    int pm = log->log_onair ? 2 : 1;
 
     if (! *title){
         RLMLog(ptr, LOG_WARNING, "No title. Dropping.");
@@ -96,16 +96,16 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
 
     char sendToSpinitron[LARGE_BUFFER];
     int chars_needed = snprintf(sendToSpinitron, LARGE_BUFFER,
-    "curl https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&pm=%i&df=Rivendell&st=%s\"",
+    "curl -s -connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&pm=%i&df=Rivendell&st=%s\"",
         USERNAME, PASSWORD, title, artist, album, pm, STATION);
     if (chars_needed >= LARGE_BUFFER){
-        RLMLog(ptr, LOG_WARNING, "Insufficient buffer size to send to Spinitron.");
+        RLMLog(ptr, LOG_ERR, "Insufficient buffer size to send to Spinitron.");
     }else{
         int retval = system(sendToSpinitron);
         if (retval == -1 || retval == 127){
-            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is wrong with the shell.");
+            RLMLog(ptr, LOG_ERR, "Unable to send to Spinitron. Something is wrong with the shell.");
         } else if (retval) {
-            RLMLog(ptr, LOG_WARNING, "Unable to send to Spinitron. Something is wrong with curl.");
+            RLMLog(ptr, LOG_ERR, "Unable to send to Spinitron. Something is wrong with curl.");
         }
     }
     RLMLog(ptr, LOG_INFO, sendToSpinitron);
