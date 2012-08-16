@@ -41,3 +41,7 @@ Refactor code, particularly for safe string functions. - Max Goldstein
 ###07/29/12
 Fix bug where sepcial characters such as `&` would not be escaped properly.
 Makefile now keeps a backup during install and replaces it on uninstall. - Max Goldstein
+
+###08/12/12
+Fix bug where script would never log as DJ with open playlist. curl now
+times out instead of freezing RDAirplay. - Max Goldstein
