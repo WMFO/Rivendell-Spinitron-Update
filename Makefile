@@ -6,15 +6,23 @@
 
 INSTALLDIR=/opt/wmfo/rlm_spinitron
 OWNER = root
-MOD = 755
+MOD = 700
 FILE = rlm_spinitron
+CREDS = credentials.h
+CREDSMOD = 400
 
 .PHONY: all install uninstall
 
-all: $(FILE).rlm
+all: $(FILE).rlm $(CREDS)
+
+$(CREDS):
+	@chown $(OWNER) $@
+	@chmod $(CREDSMOD) $@
 
 $(FILE).rlm: $(FILE).c
 	@gcc -shared -o $@ $< -Wall -Wextra -Werror -fPIC
+	@chown $(OWNER) $@
+	@chmod $(MOD) $@
 
 install: $(INSTALLDIR)/$(FILE).rlm
 

@@ -45,3 +45,6 @@ Makefile now keeps a backup during install and replaces it on uninstall. - Max G
 ###08/12/12
 Fix bug where script would never log as DJ with open playlist. curl now
 times out instead of freezing RDAirplay. - Max Goldstein
+
+###9/25/12
+Restrict access to files containing credentials automatically in the Makefile. - Max Goldstein
