@@ -96,7 +96,7 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
 
     char sendToSpinitron[LARGE_BUFFER];
     int chars_needed = snprintf(sendToSpinitron, LARGE_BUFFER,
-    "curl -s -connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&pm=%i&df=Rivendell&st=%s\"",
+    "curl -s --connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&pm=%i&df=Rivendell&st=%s\"",
         USERNAME, PASSWORD, title, artist, album, pm, STATION);
     if (chars_needed >= LARGE_BUFFER){
         RLMLog(ptr, LOG_ERR, "Insufficient buffer size to send to Spinitron.");
