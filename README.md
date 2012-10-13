@@ -12,6 +12,7 @@ pointed to by the plugin argument.
 
 Before use, add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
 You may also need to change the symlink rlm.h to point to the correct location in your install.  
+If you don't want to log the cart number in the notes field, change LOG_CART_NUM to 0.  
 Compile using `make all` to produce rlm_spinitron.rlm.  
 Optionally, install the file to another directory with `make install`.  
 Runtime configurtaion is done at RDAdmin->ManageHosts->select the host->Edit->
@@ -48,3 +49,6 @@ times out instead of freezing RDAirplay. - Max Goldstein
 
 ###9/25/12
 Restrict access to files containing credentials automatically in the Makefile. - Max Goldstein
+
+###10/13/12
+Add logging cart number to notes field. - Max Goldstein

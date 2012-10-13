@@ -17,6 +17,9 @@
 #include "rlm.h"
 #include "credentials.h" // defines const char*s USERNAME, PASSWORD, STATION
 
+#define LOG_CART_NUM 1
+#define NOTE_LEN 20
+
 #define BUFFER_SIZE 512
 #define LARGE_BUFFER BUFFER_SIZE*4
 char old_title[BUFFER_SIZE]; //Global to persist between callbacks
@@ -83,6 +86,13 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     url_encode(album,  BUFFER_SIZE);
 
     int pm = log->log_onair ? 2 : 1;
+    char notes[NOTE_LEN];
+    if (LOG_CART_NUM){
+        snprintf(notes, NOTE_LEN, "(cart %u)", now->rlm_cartnum);
+        notes[NOTE_LEN -1] = '\0';
+    }else{
+        notes[0]='\0';
+    }
 
     if (! *title){
         RLMLog(ptr, LOG_WARNING, "No title. Dropping.");
@@ -96,8 +106,8 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
 
     char sendToSpinitron[LARGE_BUFFER];
     int chars_needed = snprintf(sendToSpinitron, LARGE_BUFFER,
-    "curl -s --connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&pm=%i&df=Rivendell&st=%s\"",
-        USERNAME, PASSWORD, title, artist, album, pm, STATION);
+    "curl -s --connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&se=%s&pm=%i&df=Rivendell&st=%s\"",
+        USERNAME, PASSWORD, title, artist, album, notes, pm, STATION);
     if (chars_needed >= LARGE_BUFFER){
         RLMLog(ptr, LOG_ERR, "Insufficient buffer size to send to Spinitron.");
     }else{
