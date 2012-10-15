@@ -6,7 +6,8 @@ ops@wmfo.org
 For copyrights and licensing, see TERMS and COPYING.  
 
 This is a Rivendell Loadable Module made to report the current playing song
-metadata to Spinitron. It was made for Rivendell 1.5.  It sends Now&Next PAD
+metadata to Spinitron. It was orginally made for Rivendell 1.5 and has been
+updated to work with Rivendell 2.  It sends Now&Next PAD
 data via UDP packets to the destination(s) specified in the configuration file
 pointed to by the plugin argument.
 
