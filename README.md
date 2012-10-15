@@ -7,13 +7,12 @@ For copyrights and licensing, see TERMS and COPYING.
 
 This is a Rivendell Loadable Module made to report the current playing song
 metadata to Spinitron. It was orginally made for Rivendell 1.5 and has been
-updated to work with Rivendell 2.  It sends Now&Next PAD
-data via UDP packets to the destination(s) specified in the configuration file
-pointed to by the plugin argument.
+updated to work with Rivendell 2.
 
-Before use, add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
+Before use, revert to the latest known good version. These are numbered using `git tag`.  
+Add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
 You may also need to change the symlink rlm.h to point to the correct location in your install.  
-If you don't want to log the cart number in the notes field, change LOG_CART_NUM to 0.  
+<!---If you don't want to log the cart number in the notes field, change LOG_CART_NUM to 0.  -->
 Compile using `make all` to produce rlm_spinitron.rlm.  
 Optionally, install the file to another directory with `make install`.  
 Runtime configurtaion is done at RDAdmin->ManageHosts->select the host->Edit->
@@ -26,7 +25,8 @@ provided in the parameters. This was made to support automated playback when no
 under a 'fake' automated user. This user should be set up in Spinitron just
 like a regular user. We use a Macro cart on the Rivendell cart screen to turn
 Automation 'on' or 'off' and switch between the active DJ and the automation
-user.
+user. You may need to ask Tom at Spinitron to enable automation access (we had
+to, but the automation integration was in beta then).
 
 Changelog
 ---------
@@ -53,3 +53,6 @@ Restrict access to files containing credentials automatically in the Makefile. -
 
 ###10/13/12
 Add logging cart number to notes field. - Max Goldstein
+
+###10/15/12
+Add tag for known-good commit. Update README. - Max Goldstein
