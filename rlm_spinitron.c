@@ -17,7 +17,7 @@
 #include "rlm.h"
 #include "credentials.h" // defines const char*s USERNAME, PASSWORD, STATION
 
-#define LOG_CART_NUM 1
+#define LOG_CART_NUM 1 // Boolean: should log cart numbers in notes field?
 #define NOTE_LEN 20
 
 #define BUFFER_SIZE 512
@@ -106,7 +106,7 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
 
     char sendToSpinitron[LARGE_BUFFER];
     int chars_needed = snprintf(sendToSpinitron, LARGE_BUFFER,
-    "curl -s --connect-timeout 1 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&se=%s&pm=%i&df=Rivendell&st=%s\"",
+    "curl -s --connect-timeout 2 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&se=%s&pm=%i&df=Rivendell&st=%s\"",
         USERNAME, PASSWORD, title, artist, album, notes, pm, STATION);
     if (chars_needed >= LARGE_BUFFER){
         RLMLog(ptr, LOG_ERR, "Insufficient buffer size to send to Spinitron.");

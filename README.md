@@ -12,7 +12,7 @@ updated to work with Rivendell 2.
 Before use, revert to the latest known good version. These are numbered using `git tag`.  
 Add your Spinitron credentials to credentials-dummy.h and rename it credentials.h.  
 You may also need to change the symlink rlm.h to point to the correct location in your install.  
-<!---If you don't want to log the cart number in the notes field, change LOG_CART_NUM to 0.  -->
+If you don't want to log the cart number in the notes field, change LOG_CART_NUM to 0.  
 Compile using `make all` to produce rlm_spinitron.rlm.  
 Optionally, install the file to another directory with `make install`.  
 Runtime configurtaion is done at RDAdmin->ManageHosts->select the host->Edit->
@@ -56,3 +56,6 @@ Add logging cart number to notes field. - Max Goldstein
 
 ###10/15/12
 Add tag for known-good commit. Update README. - Max Goldstein
+
+###11/21/12
+New known-good commit. Optionally logs cart numbers, curl times out. - Max Goldstein
