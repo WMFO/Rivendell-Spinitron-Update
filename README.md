@@ -25,8 +25,13 @@ provided in the parameters. This was made to support automated playback when no
 under a 'fake' automated user. This user should be set up in Spinitron just
 like a regular user. We use a Macro cart on the Rivendell cart screen to turn
 Automation 'on' or 'off' and switch between the active DJ and the automation
-user. You may need to ask Tom at Spinitron to enable automation access (we had
-to, but the automation integration was in beta then).
+user.
+
+You need to ask Tom at Spinitron (tom@spinitron.com) to enable automation 
+access. It is a security measure. When you ask for access, Spinitron configures
+an access control that allows only those machines that you nominate to log spins 
+into your Spinitron database.
+
 
 Changelog
 ---------
