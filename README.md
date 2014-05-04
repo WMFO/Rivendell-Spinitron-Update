@@ -74,3 +74,6 @@ New known-good commit. Optionally logs cart numbers, curl times out. - Max Golds
 
 ###10/15/13
 Update the README. No code changes. - Max Goldstein
+
+###5/3/14
+Update documentation about the shell script to turn automation on. - Max Goldstein
