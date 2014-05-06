@@ -4,12 +4,15 @@
 #
 #Compile without installing: make all
 
-INSTALLDIR=/opt/wmfo/rlm_spinitron
+BASE=/opt/wmfo
+INSTALLDIR=rlm_spinitron
 OWNER = root
 MOD = 755
 FILE = rlm_spinitron
 CREDS = credentials.h
 CREDSMOD = 600
+
+SCRIPTDIR=macro_sh
 
 .PHONY: all install uninstall
 
@@ -22,10 +25,13 @@ $(FILE).rlm: $(FILE).c
 	@chown $(OWNER) $@
 	@chmod $(MOD) $@
 
-install: $(INSTALLDIR)/$(FILE).rlm
+install: $(BASE)/$(INSTALLDIR)/$(FILE).rlm
+	@chmod $(MOD) $(SCRIPTDIR)/* 
+	@mkdir -p $(BASE)/$(SCRIPTDIR)
+	@cp $(SCRIPTDIR)/* $(BASE)/$(SCRIPTDIR)
 
-$(INSTALLDIR)/$(FILE).rlm: $(FILE).rlm
-	@mkdir -p $(INSTALLDIR)
+$(BASE)$(INSTALLDIR)/$(FILE).rlm: $(FILE).rlm
+	@mkdir -p $(BASE)/$(INSTALLDIR)
 	@if [ -f $@ ] ; \
 	then \
 		cp $@ $@.bak ; \
@@ -35,9 +41,9 @@ $(INSTALLDIR)/$(FILE).rlm: $(FILE).rlm
 	@chmod $(MOD) $@
 
 uninstall:
-	@$(RM) $(INSTALLDIR)/$(FILE).rlm
-	@if [ -f $(INSTALLDIR)/$(FILE).rlm.bak ] ; \
+	@$(RM) $(BASE)/$(INSTALLDIR)/$(FILE).rlm
+	@if [ -f $(BASE)/$(INSTALLDIR)/$(FILE).rlm.bak ] ; \
 	then \
-		cp $(INSTALLDIR)/$(FILE).rlm.bak $(INSTALLDIR)/$(FILE).rlm ; \
-		$(RM) $(INSTALLDIR)/$(FILE).rlm.bak ; \
+		cp $(BASE)/$(INSTALLDIR)/$(FILE).rlm.bak $(BASE)/$(INSTALLDIR)/$(FILE).rlm ; \
+		$(RM) $(BASE)/$(INSTALLDIR)/$(FILE).rlm.bak ; \
 	fi;

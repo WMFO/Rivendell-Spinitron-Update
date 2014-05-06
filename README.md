@@ -77,3 +77,7 @@ Update the README. No code changes. - Max Goldstein
 
 ###5/3/14
 Update documentation about the shell script to turn automation on. - Max Goldstein
+
+###5/6/14
+Add `macro_sh`, a collection of shell scripts called by our Rivendell macros.
+
