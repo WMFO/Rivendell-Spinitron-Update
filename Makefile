@@ -30,7 +30,7 @@ install: $(BASE)/$(INSTALLDIR)/$(FILE).rlm
 	@mkdir -p $(BASE)/$(SCRIPTDIR)
 	@cp $(SCRIPTDIR)/* $(BASE)/$(SCRIPTDIR)
 
-$(BASE)$(INSTALLDIR)/$(FILE).rlm: $(FILE).rlm
+$(BASE)/$(INSTALLDIR)/$(FILE).rlm: $(FILE).rlm
 	@mkdir -p $(BASE)/$(INSTALLDIR)
 	@if [ -f $@ ] ; \
 	then \
