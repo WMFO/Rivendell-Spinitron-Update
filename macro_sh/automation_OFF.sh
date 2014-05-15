@@ -10,7 +10,7 @@ then
 	/usr/local/bin/rmlsend LL\ 1\ Blank\!
 	/usr/local/bin/rmlsend LL\ 2\ Blank\!
 	/usr/local/bin/rmlsend LL\ 3\ Blank\!
-	rm -f lockfile
+	rm -f $LOCKFILE
 fi
 
 # Turn automation off (i.e. call this script) on GPI from board
