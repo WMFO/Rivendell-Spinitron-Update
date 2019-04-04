@@ -76,37 +76,24 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     char title[BUFFER_SIZE];
     char artist[BUFFER_SIZE];
     char album[BUFFER_SIZE];
+    char genre[BUFFER_SIZE];
     int chars_needed;
+    int duration = now->rlm_len / 1000; // rlm is in milliseconds
     openlog("Rivendell-Spinitron", LOG_PID, LOG_USER);
-    #ifdef AXIA_CHECK_ENABLED
-        char axiabuf[LARGE_BUFFER];
-	chars_needed = snprintf(axiabuf, LARGE_BUFFER,
-	"curl -s -u %s:%s --connect-timeout 2 %s | grep \"name=%s\" | grep -c %s > /dev/null",
-        NODE_USERNAME, NODE_PASSWORD, NODE_URL, NODE_CHANNEL, NODE_STUDIO_PGM_CHANNEL);
-    	if (chars_needed >= LARGE_BUFFER){
-            RLMLog(ptr, LOG_ERR, "Insufficient buffer size to check axia routing.");
-    	} else {
-	    if (system(axiabuf) == 0) {
-		syslog(LOG_DEBUG,"Node Indicates Configured Source Active, Continue.");
-		RLMLog(ptr, LOG_INFO, "Node Indicates Configured Source Active, Continue.");
-	    } else {
-		syslog(LOG_DEBUG, "Node Indicates Configured Source Inactive, Stop.");
-		RLMLog(ptr, LOG_INFO, "Node Indicates Configured Source Inactive, Stop.");
-		return;
-	    }
-	}
-    #endif
     strncpy (title,  now->rlm_title,  BUFFER_SIZE);
     strncpy (artist, now->rlm_artist, BUFFER_SIZE);
     strncpy (album,  now->rlm_album,  BUFFER_SIZE);
+    strncpy (genre,  now->rlm_userdef,  BUFFER_SIZE);
     title [BUFFER_SIZE-1] = '\0';
     artist[BUFFER_SIZE-1] = '\0';
     album [BUFFER_SIZE-1] = '\0';
+    genre [BUFFER_SIZE-1] = '\0';
     url_encode(title,  BUFFER_SIZE);
     url_encode(artist, BUFFER_SIZE);
     url_encode(album,  BUFFER_SIZE);
+    url_encode(genre,  BUFFER_SIZE);
 
-    int pm = log->log_onair ? 2 : 1;
+    int live = log->log_onair ? 1 : 0;
     char notes[NOTE_LEN];
     if (LOG_CART_NUM){
         snprintf(notes, NOTE_LEN, "(cart %u)", now->rlm_cartnum);
@@ -127,10 +114,29 @@ void rlm_spinitron_RLMPadDataSent(void *ptr,const struct rlm_svc *svc,
     }
     strncpy(old_title, title, BUFFER_SIZE);
 
+    #ifdef AXIA_CHECK_ENABLED
+        char axiabuf[LARGE_BUFFER];
+	chars_needed = snprintf(axiabuf, LARGE_BUFFER,
+	"curl -s -u %s:%s --connect-timeout 2 %s | grep \"name=%s\" | grep -c %s > /dev/null",
+        NODE_USERNAME, NODE_PASSWORD, NODE_URL, NODE_CHANNEL, NODE_STUDIO_PGM_CHANNEL);
+    	if (chars_needed >= LARGE_BUFFER){
+            RLMLog(ptr, LOG_ERR, "Insufficient buffer size to check axia routing.");
+    	} else {
+	    if (system(axiabuf) == 0) {
+		syslog(LOG_DEBUG,"Node Indicates Configured Source Active, Continue.");
+		RLMLog(ptr, LOG_INFO, "Node Indicates Configured Source Active, Continue.");
+	    } else {
+		syslog(LOG_DEBUG, "Node Indicates Configured Source Inactive, Stop.");
+		RLMLog(ptr, LOG_INFO, "Node Indicates Configured Source Inactive, Stop.");
+		return;
+	    }
+	}
+    #endif
+
     char sendToSpinitron[LARGE_BUFFER];
     chars_needed = snprintf(sendToSpinitron, LARGE_BUFFER,
-    "curl -s --connect-timeout 2 https://spinitron.com/member/logthis.php -d \"un=%s&pw=%s&sn=%s&aw=%s&dn=%s&se=%s&pm=%i&df=Rivendell&st=%s\"",
-        USERNAME, PASSWORD, title, artist, album, notes, pm, STATION);
+    "curl -s -H 'Authorization: Bearer %s' --connect-timeout 2 https://spinitron.com/api/spins -d \"duration=%d\" -d \"artist=%s\" -d \"release=%s\" -d \"genre=%s\" -d \"song=%s\" -d \"note=%s\" -d \"live=%d\"",
+        API_KEY, duration, artist, album, genre, title, notes, live);
     if (chars_needed >= LARGE_BUFFER){
 	syslog(LOG_ERR,"Insufficient buffer size to send to Spinitron.");
         RLMLog(ptr, LOG_ERR, "Insufficient buffer size to send to Spinitron.");

@@ -83,3 +83,6 @@ Add `macro_sh`, a collection of shell scripts called by our Rivendell macros. - 
 
 ###5/15/14
 Set up automation off from board fader off. - Max Goldstein
+
+###4/3/2019
+Updated to use the Spinitron V2 API.
